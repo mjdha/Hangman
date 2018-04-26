@@ -20,7 +20,6 @@ public class Main {
         while (true) {
             int random = getRandomNumberInRange(0, words.size() - 1);
             String thisGame = words.get(random);
-            System.out.println(thisGame);
             logic(thisGame);
             Scanner input = new Scanner(System.in);
             String playAgain = "";
@@ -45,25 +44,44 @@ public class Main {
         System.out.println("Hey Welcome to Hangman you have " + lbl.size() + " Guesses so GoodLuck! :D");
 
         ArrayList<Character> ingame = new ArrayList<>(Arrays.asList('_', '_', '_', '_', '_', '_', '_', '_', '_'));
+        ArrayList<Character> usrAry = new ArrayList<>();
 
 
         for (int guessnum = 0; guessnum < lbl.size(); guessnum++) {
             String user = input.nextLine();
             char guess = user.charAt(0);
+
             for (int x = 0; x < lbl.size(); x++) {
-                if (guess == lbl.get(x)) {
+                if (user.equalsIgnoreCase(thisGame)) {
+                    numOfCor = lbl.size();
+
+                }
+                if (!usrAry.contains(guess) && guess == lbl.get(x) && numOfCor != lbl.size() && ingame.get(x) == '_') {
                     ingame.set(x, lbl.get(x));
                     numOfCor += 1;
+                    usrAry.add(guess);
+                    break;
                 }
 
             }
-            System.out.println(ingame.subList(0, lbl.size()));
+            if (numOfCor != lbl.size()) {
+                System.out.println(ingame.subList(0, lbl.size()));
+            }
+
             if (numOfCor == lbl.size()) {
-                System.out.println("GoodJob you Guessed the word " + thisGame);
+                System.out.println("You Saved the man\n " + "┌─-┐\n" +
+                        " │     Ó\n" +
+                        " │    /│\\\n" +
+                        " │    /-\\" +
+                        " \n ┴" + "\nand you Guessed the word " + thisGame);
                 break;
             }
             if (numOfCor != lbl.size() && guessnum == lbl.size() - 1) {
-                System.out.println("Out of Guesses! :( Better luck next time :D");
+                System.out.println("You killed the man\n " + "┌─-┐\n" +
+                        " │  Ó\n" +
+                        " │ /│\\\n" +
+                        " │ /-\\" +
+                        " \n ┴" + "\nThe word was " + thisGame + "." + "\nBetter luck next time!");
                 break;
             }
         }
